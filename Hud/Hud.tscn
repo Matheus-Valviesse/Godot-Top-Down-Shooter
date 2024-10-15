@@ -1,0 +1,44 @@
+[gd_scene load_steps=5 format=3 uid="uid://dlouttm6gt6un"]
+
+[ext_resource type="Texture2D" uid="uid://btd1e2bj06h4a" path="res://Hud/HudBar.png" id="1_cbvjh"]
+[ext_resource type="Script" path="res://Hud/hud_control.gd" id="1_diq7u"]
+[ext_resource type="Texture2D" uid="uid://dvq0b7d4txlqp" path="res://Hud/New Piskel-1.png (1).png" id="2_dleof"]
+[ext_resource type="Texture2D" uid="uid://dyj8r15xkn5pb" path="res://Hud/New Piskel-2.png (1).png" id="3_so8ah"]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+script = ExtResource("1_diq7u")
+
+[node name="HpBar" type="TextureRect" parent="."]
+offset_left = 6.0
+offset_top = 3.0
+offset_right = 262.0
+offset_bottom = 67.0
+texture = ExtResource("1_cbvjh")
+
+[node name="Bar" type="TextureRect" parent="HpBar"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 24.0
+offset_right = 254.0
+offset_bottom = 42.0
+texture = ExtResource("2_dleof")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="MpBar" type="TextureRect" parent="."]
+offset_left = 7.0
+offset_top = 65.0
+offset_right = 263.0
+offset_bottom = 129.0
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("1_cbvjh")
+
+[node name="Bar" type="TextureRect" parent="MpBar"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 24.0
+offset_right = 254.0
+offset_bottom = 42.0
+texture = ExtResource("3_so8ah")
+expand_mode = 1
+stretch_mode = 1
