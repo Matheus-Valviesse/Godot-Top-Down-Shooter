@@ -7,7 +7,7 @@ var HPMax 			: float = 1000
 var MP					: float = 300
 var MPMax 			: float = 300
 
-var ATK 				: float = 300
+var ATK 				: float = 500
 var ATKMax 			: float = 0
 
 var DEF 				: float = 300
@@ -17,25 +17,31 @@ var SPEED 			: float = 180
 var SPEEDMax 		: float = 0
 
 var CRIT        : float = 0.15
-var CRITMax			: float = 0.50
+var CRITMax			: float = 0
 
-var CRITDmg     : float = 0.15
-var CRITDmgMax	: float = 0.50
+var CRITDmg     : float = 0.50
+var CRITDmgMax	: float = 0
 
 var status_effects : Array = []
-var status_bonus:  Array = []
-var status_item: Array = []
+var status_bonus 	 : Array = []
+var status_item 	 : Array = []
 
-var type_entity = 'player'
-@onready var arm = $Arm
+var type_entity : String = 'player'
+
+@onready var arm =  $Arm
 @onready var hand = $Arm/Hand
 
 var weapon 
 
-var self_hud
+var self_hud : CanvasLayer
+
+var weapon_reload : bool
+
+
 
 func _ready() -> void:
 
+	# iniciação da hud do player 
 	var player_hud = preload('res://Hud/Hud.tscn')
 	var hud_istantiate = player_hud.instantiate()
 	self_hud = hud_istantiate	
@@ -48,15 +54,20 @@ func _input(event: InputEvent) -> void:
 			if event.keycode == KEY_1:
 				
 				var skill = Divine_protection.new()
-				skill._call_skill(self)
+				skill._call_skill(self,get_damage(ATK,CRIT,CRITDmg))
 				hud_edit()
 				
 			if event.keycode == KEY_2:
 				apply_status_effect(Radiation_blessing.new())
 
+			if event.keycode == KEY_3:
+				take_damage({ 
+			'isCrit': false,
+			'dmg': 600
+			})
 	if event is InputEventMouse and event.is_pressed():
 		if weapon && weapon.stat == 'idle':
-			weapon.shoot()
+			weapon.shoot(get_damage(ATK,CRIT,CRITDmg), self)
 
 	hud_edit()
 
@@ -66,9 +77,7 @@ func get_input() -> void:
 	velocity = input_direction * SPEED
 
 func _physics_process(delta: float) -> void:
-
-	print()
-
+	
 	get_input()
 	move_and_slide()
 
@@ -96,7 +105,10 @@ func hand_movement() -> void:
 	if weapon !=  null:
 		weapon.global_position = hand.global_position
 		weapon.look_at(get_global_mouse_position())
-		
+
+
+
+# Aplicas os status e verifica se vai ser resetado 		
 func apply_status_effect(effect) -> void:
 
 	var effect_exist : bool = false
@@ -121,6 +133,7 @@ func apply_status_effect(effect) -> void:
 	effect.apply(self)
 	apply_bonus(effect.get_effect_name(),'apply')
 
+# Aplica os bonus a cada categoria 
 func apply_bonus(statuName: String , type: String) -> void:
 
 	if(type):
@@ -144,7 +157,45 @@ func apply_bonus(statuName: String , type: String) -> void:
 						if(type == 'remove'):
 							var next_value = prev_value - (statu_value * statu_count)
 							set(statu_name, next_value )
-				
+
+# Controle da hud do player		
 func hud_edit() -> void:
 	self_hud._hp_change(self)
 	self_hud._mp_change(self)
+
+
+
+func get_damage(atk, crit, critDMG) -> Dictionary :
+	
+	var critChance = randf() > crit 
+
+	if critChance: 
+		return { 
+			'isCrit': true,
+			'dmg': atk + atk * critDMG
+			}
+
+	else: 
+		return { 
+			'isCrit': false,
+			'dmg': atk
+			}
+
+func take_damage(atkObj,multiplier = 1) -> void:
+	var damageResolve = atkObj.dmg * multiplier - DEF
+
+	var dmg_text = preload('res://PopUptext/Damage/Damage.tscn')
+	var dmg_spaw = dmg_text.instantiate()
+	dmg_spaw.global_position = self.position 
+	dmg_spaw.find_child('Dmg').text ='-'+"%.2f" %  damageResolve
+	self.get_parent().add_child(dmg_spaw)
+	
+	HP -= damageResolve
+
+	if HP < 0 :
+		HP = 0
+
+	hud_edit()
+
+func get_entity() -> String:
+	return type_entity

@@ -8,4 +8,3 @@ func _ready() -> void:
 	weapon = weapon_instantiate
 	print(weapon)
 	self.get_parent().add_child.call_deferred(weapon)
-

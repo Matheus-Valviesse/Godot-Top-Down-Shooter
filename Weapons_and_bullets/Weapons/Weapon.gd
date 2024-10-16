@@ -10,9 +10,13 @@ var Bullet = preload('res://Weapons_and_bullets/Bullets/bullet.tscn')
 @onready var animation = $Weapon_animation
 @onready var spaner = $Bullet_spawn
 
-func shoot():
+var damage 
+var target
+func shoot(damage_apply, target_creator):
 	if ammo_current > 0 && stat == 'idle':
 		animation.play('shoot')
+		damage = damage_apply
+		target = target_creator
 		
 func spwan_weapon():
 	var bullet_spawned = Bullet.instantiate()
@@ -20,6 +24,8 @@ func spwan_weapon():
 	bullet_spawned.rotation = global_rotation
 	bullet_spawned.position = spaner.global_position
 	bullet_spawned.velocity = Vector2(bullet_spawned.speed,0).rotated(global_rotation)
+	bullet_spawned.damage = damage
+	bullet_spawned.target = target
 	ammo_current -= 1
 
 func _on_animation_finished(anim_name:StringName) -> void:

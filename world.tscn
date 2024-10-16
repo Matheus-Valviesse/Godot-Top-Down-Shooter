@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://m7ygdf4ii5f0"]
+[gd_scene load_steps=4 format=3 uid="uid://m7ygdf4ii5f0"]
 
 [ext_resource type="PackedScene" uid="uid://bqfc7tqn0pc02" path="res://Player/player.tscn" id="1_5ss5c"]
+[ext_resource type="PackedScene" uid="uid://cp7a7j1yw3v15" path="res://TrainingScarecrow/TrainingScarecrow.tscn" id="2_0by8x"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_uwwso"]
 radius = 54.0093
@@ -8,10 +9,13 @@ radius = 54.0093
 [node name="world" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource("1_5ss5c")]
-position = Vector2(384, 249)
+position = Vector2(182, 177)
 
 [node name="Enemy" type="CharacterBody2D" parent="."]
 position = Vector2(695, 247)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy"]
 shape = SubResource("CircleShape2D_uwwso")
+
+[node name="TrainingScarecrow;" parent="." instance=ExtResource("2_0by8x")]
+position = Vector2(439, 306)

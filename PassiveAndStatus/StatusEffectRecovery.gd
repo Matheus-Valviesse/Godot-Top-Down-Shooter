@@ -39,11 +39,13 @@ func apply_in_time(time:float, target):
     
 
 func recover_hp(percent, target) -> float:
-  var r_hp = min(target.HP + (target.HPMax * percent), target.HPMax)
+  var recover_value = target.HPMax * percent
+  var r_hp = min(target.HP + (recover_value), target.HPMax)
   target.HP = r_hp
-  return r_hp
+  return recover_value
 
 func recover_mp(percent, target) -> float:
+  var recover_value = target.MPMax * percent
   var r_mp = min(target.MP + (target.MPMax * percent), target.MPMax)
   target.MP = r_mp
-  return r_mp
+  return recover_value
