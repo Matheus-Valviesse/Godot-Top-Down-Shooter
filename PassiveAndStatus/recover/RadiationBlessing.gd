@@ -12,4 +12,3 @@ func apply(target):
 
 func remove(target):
   super.remove(target)
-

@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://dmdh3qdy5db4"]
 
-[ext_resource type="Script" path="res://skill_divine_protection.gd" id="1_5stdh"]
+[ext_resource type="Script" path="res://Skill/divine_protection/skill_divine_protection.gd" id="1_5stdh"]
 [ext_resource type="Texture2D" uid="uid://2fjug55usoyc" path="res://Skill/divine_protection/Divine_protection_img.png" id="2_cu2ms"]
 
 [sub_resource type="Animation" id="Animation_yvvlg"]
